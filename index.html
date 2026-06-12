@@ -1,0 +1,361 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:#0f0e17;padding:0;min-height:100vh}
+
+.hero{background:linear-gradient(135deg,#26215C 0%,#534AB7 60%,#7F77DD 100%);padding:22px 24px 18px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:#7F77DD;border-radius:50%;opacity:.18}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative}
+.hero-title{font-size:22px;font-weight:500;color:#fff;letter-spacing:-.3px}
+.hero-sub{font-size:12px;color:#CECBF6;margin-top:3px}
+.hero-pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1.5px solid}
+.pill-bc{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+.pill-qr{background:#0F6E56;color:#9FE1CB;border-color:#1D9E75}
+.pill-bk{background:#BA7517;color:#FAEEDA;border-color:#EF9F27}
+
+.tab-bar{display:flex;background:#1a1830;border-bottom:1.5px solid #2d2a50}
+.tab{flex:1;padding:13px 8px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#7F77DD;border-bottom:3px solid transparent;margin-bottom:-1.5px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.tab i{font-size:15px}
+.tab:hover{color:#AFA9EC;background:rgba(255,255,255,.03)}
+.tab.on-bc{color:#fff;border-bottom-color:#7F77DD;background:rgba(127,119,221,.08)}
+.tab.on-qr{color:#5DCAA5;border-bottom-color:#1D9E75;background:rgba(29,158,117,.06)}
+.tab.on-bk{color:#EF9F27;border-bottom-color:#EF9F27;background:rgba(239,159,39,.06)}
+
+.body{padding:20px;background:#0f0e17}
+.pane{display:none}.pane.on{display:block}
+
+.section{background:#1a1830;border:1px solid #2d2a50;border-radius:14px;padding:18px;margin-bottom:14px}
+.section-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.section-head i{font-size:18px;color:#7F77DD}
+.section-head-qr i{color:#1D9E75}
+.section-head-bk i{color:#EF9F27}
+.section-title{font-size:14px;font-weight:500;color:#e8e6ff}
+
+.flabel{font-size:11px;font-weight:500;letter-spacing:.5px;color:#6B6890;margin-bottom:5px;display:block;text-transform:uppercase}
+textarea{width:100%;height:80px;font-family:var(--font-mono);font-size:12px;border:1px solid #2d2a50;border-radius:10px;padding:10px;resize:vertical;background:#120f24;color:#e8e6ff;line-height:1.6}
+textarea:focus{outline:none;border-color:#534AB7}
+textarea::placeholder{color:#3d3a5e}
+.hint{font-size:11px;color:#4d4a6e;margin:5px 0 14px}
+
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .12s;position:relative}
+.dot:hover{transform:scale(1.2)}
+.dot.sel{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.25);transform:scale(1.1)}
+
+.ctrl-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.fgrp{display:flex;flex-direction:column;gap:5px}
+.cpick{width:40px;height:34px;border-radius:8px;border:1px solid #2d2a50;cursor:pointer;padding:2px;background:#120f24}
+select{padding:7px 10px;font-size:12px;border:1px solid #2d2a50;border-radius:8px;background:#120f24;color:#e8e6ff}
+select:focus{outline:none;border-color:#534AB7}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 20px;border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .12s}
+.btn:active{transform:scale(.97)}
+.btn-bc{background:#534AB7;color:#fff}.btn-bc:hover{background:#7F77DD}
+.btn-qr{background:#0F6E56;color:#9FE1CB}.btn-qr:hover{background:#1D9E75}
+.btn-bk{background:#BA7517;color:#FAEEDA}.btn-bk:hover{background:#EF9F27;color:#412402}
+.btn-dl{background:#1a1830;color:#AFA9EC;border:1px solid #2d2a50}.btn-dl:hover{background:#2d2a50;color:#fff}
+
+.status{font-size:11px;color:#534AB7;margin-top:10px;min-height:16px;font-weight:500}
+.status-qr{color:#1D9E75}
+.status-bk{color:#EF9F27}
+
+.out{display:flex;flex-wrap:wrap;gap:14px;padding-top:4px}
+.bc-card{border-radius:12px;padding:14px 18px;display:inline-flex;flex-direction:column;align-items:center;gap:7px;border:1px solid #2d2a50;background:#120f24;transition:border-color .15s}
+.bc-card:hover{border-color:#534AB7}
+.bc-lbl{font-size:10px;color:#4d4a6e;font-family:monospace;letter-spacing:.6px}
+.err{color:#E24B4A;font-size:12px;padding:4px 0;font-weight:500}
+
+.bk-info{background:#1a1410;border:1px solid #854F0B;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:10px}
+.bk-info i{color:#EF9F27;font-size:20px;flex-shrink:0;margin-top:1px}
+.bk-info-text{font-size:12px;color:#EF9F27;line-height:1.65}
+.bk-info-text strong{color:#FAC775}
+
+.sz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:14px}
+.sz-opt{border:1.5px solid #2d2a50;border-radius:10px;padding:11px 12px;cursor:pointer;transition:all .15s;background:#120f24}
+.sz-opt:hover{border-color:#BA7517}
+.sz-opt.sel{border-color:#EF9F27;background:#1a1410}
+.sz-name{font-size:12px;font-weight:500;color:#e8e6ff}
+.sz-val{font-size:11px;color:#4d4a6e;margin-top:2px}
+.sz-opt.sel .sz-name{color:#EF9F27}
+.sz-opt.sel .sz-val{color:#BA7517}
+</style>
+
+<h2 class="sr-only">Barcode, QR code and Blinkit-ready barcode generator</h2>
+
+<div class="hero">
+  <div class="hero-top">
+    <div>
+      <div class="hero-title">Barcode &amp; QR Generator</div>
+      <div class="hero-sub">EAN-13 · QR Codes · Blinkit 1:1 ready</div>
+    </div>
+    <div class="hero-pills">
+      <span class="pill pill-bc">EAN-13 Barcode</span>
+      <span class="pill pill-qr">QR Code</span>
+      <span class="pill pill-bk">Blinkit 1:1</span>
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab on-bc" id="tab-bc" onclick="sw('bc',this)"><i class="ti ti-barcode" aria-hidden="true"></i>EAN-13</button>
+  <button class="tab" id="tab-qr" onclick="sw('qr',this)"><i class="ti ti-qrcode" aria-hidden="true"></i>QR Code</button>
+  <button class="tab" id="tab-bk" onclick="sw('bk',this)"><i class="ti ti-bolt" aria-hidden="true"></i>Blinkit</button>
+</div>
+
+<div class="body">
+
+<div id="pane-bc" class="pane on">
+  <div class="section">
+    <div class="section-head"><i class="ti ti-list" aria-hidden="true"></i><span class="section-title">Barcode numbers</span></div>
+    <span class="flabel">Ek line = ek barcode (12 ya 13 digits)</span>
+    <textarea id="bc-inp">8906150352377
+8906150352355
+8906150352362</textarea>
+    <div class="hint">12 digits → check digit auto &nbsp;|&nbsp; 13 digits → as-is</div>
+  </div>
+  <div class="section">
+    <div class="section-head"><i class="ti ti-palette" aria-hidden="true"></i><span class="section-title">Color theme</span></div>
+    <div class="presets" id="bc-pre">
+      <div class="dot sel" style="background:#000" data-b="#000000" data-g="#ffffff" title="Classic"></div>
+      <div class="dot" style="background:#534AB7" data-b="#534AB7" data-g="#EEEDFE" title="Purple"></div>
+      <div class="dot" style="background:#0F6E56" data-b="#0F6E56" data-g="#E1F5EE" title="Teal"></div>
+      <div class="dot" style="background:#993C1D" data-b="#993C1D" data-g="#FAECE7" title="Coral"></div>
+      <div class="dot" style="background:#185FA5" data-b="#185FA5" data-g="#E6F1FB" title="Blue"></div>
+      <div class="dot" style="background:#3B6D11" data-b="#3B6D11" data-g="#EAF3DE" title="Green"></div>
+      <div class="dot" style="background:#854F0B" data-b="#854F0B" data-g="#FAEEDA" title="Amber"></div>
+      <div class="dot" style="background:#993556" data-b="#993556" data-g="#FBEAF0" title="Pink"></div>
+      <div class="dot" style="background:#A32D2D" data-b="#A32D2D" data-g="#FCEBEB" title="Red"></div>
+    </div>
+    <div class="ctrl-row">
+      <div class="fgrp"><span class="flabel">Bar color</span><input type="color" class="cpick" id="bc-c" value="#000000"></div>
+      <div class="fgrp"><span class="flabel">Background</span><input type="color" class="cpick" id="bc-g" value="#ffffff"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-bc" onclick="genBC()"><i class="ti ti-refresh" aria-hidden="true"></i>Generate</button>
+      <button class="btn btn-dl" onclick="dlAll('bc')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+    </div>
+    <div class="status" id="st-bc"></div>
+  </div>
+  <div class="out" id="out-bc"></div>
+</div>
+
+<div id="pane-qr" class="pane">
+  <div class="section">
+    <div class="section-head section-head-qr"><i class="ti ti-link" style="color:#1D9E75" aria-hidden="true"></i><span class="section-title">Links / text</span></div>
+    <span class="flabel">Ek line = ek QR</span>
+    <textarea id="qr-inp" placeholder="https://unigenlifestyle.com&#10;https://example.com/product/123"></textarea>
+    <div class="hint">URL, product link, kuch bhi chalega</div>
+  </div>
+  <div class="section">
+    <div class="section-head section-head-qr"><i class="ti ti-palette" style="color:#1D9E75" aria-hidden="true"></i><span class="section-title">Color &amp; size</span></div>
+    <div class="presets" id="qr-pre">
+      <div class="dot sel" style="background:#1D3557" data-b="#1D3557" data-g="#ffffff"></div>
+      <div class="dot" style="background:#534AB7" data-b="#534AB7" data-g="#EEEDFE"></div>
+      <div class="dot" style="background:#0F6E56" data-b="#0F6E56" data-g="#E1F5EE"></div>
+      <div class="dot" style="background:#993C1D" data-b="#993C1D" data-g="#FAECE7"></div>
+      <div class="dot" style="background:#185FA5" data-b="#185FA5" data-g="#E6F1FB"></div>
+      <div class="dot" style="background:#3B6D11" data-b="#3B6D11" data-g="#EAF3DE"></div>
+      <div class="dot" style="background:#854F0B" data-b="#854F0B" data-g="#FAEEDA"></div>
+      <div class="dot" style="background:#993556" data-b="#993556" data-g="#FBEAF0"></div>
+      <div class="dot" style="background:#000" data-b="#000000" data-g="#ffffff"></div>
+    </div>
+    <div class="ctrl-row">
+      <div class="fgrp"><span class="flabel">QR color</span><input type="color" class="cpick" id="qr-c" value="#1D3557"></div>
+      <div class="fgrp"><span class="flabel">Background</span><input type="color" class="cpick" id="qr-g" value="#ffffff"></div>
+      <div class="fgrp"><span class="flabel">Size</span>
+        <select id="qr-sz"><option value="200">Small 200px</option><option value="300" selected>Medium 300px</option><option value="400">Large 400px</option></select>
+      </div>
+      <div class="fgrp"><span class="flabel">Error fix</span>
+        <select id="qr-ec"><option value="L">L 7%</option><option value="M" selected>M 15%</option><option value="Q">Q 25%</option><option value="H">H 30%</option></select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-qr" onclick="genQR()"><i class="ti ti-refresh" aria-hidden="true"></i>Generate</button>
+      <button class="btn btn-dl" onclick="dlAll('qr')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+    </div>
+    <div class="status status-qr" id="st-qr"></div>
+  </div>
+  <div class="out" id="out-qr"></div>
+</div>
+
+<div id="pane-bk" class="pane">
+  <div class="bk-info">
+    <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+    <div class="bk-info-text">
+      <strong>Blinkit / Zepto / Swiggy Instamart:</strong> Barcode image must be <strong>1:1 square ratio</strong>, max 8MB, .png format, 300 DPI+. Yahan barcode white padding ke saath square canvas pe center hota hai — seedha upload karo, error nahi aayega.
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-head section-head-bk"><i class="ti ti-list" style="color:#EF9F27" aria-hidden="true"></i><span class="section-title">Barcode numbers</span></div>
+    <span class="flabel">Ek line = ek barcode (12 ya 13 digits)</span>
+    <textarea id="bk-inp">8906150352377</textarea>
+    <div class="hint">Same numbers jo EAN-13 tab mein daale the</div>
+  </div>
+  <div class="section">
+    <div class="section-head section-head-bk"><i class="ti ti-resize" style="color:#EF9F27" aria-hidden="true"></i><span class="section-title">Export size (1:1 square)</span></div>
+    <div class="sz-grid">
+      <div class="sz-opt" data-px="500" onclick="selSz(this)"><div class="sz-name">500 × 500</div><div class="sz-val">Basic upload</div></div>
+      <div class="sz-opt sel" data-px="800" onclick="selSz(this)"><div class="sz-name">800 × 800</div><div class="sz-val">Recommended</div></div>
+      <div class="sz-opt" data-px="1000" onclick="selSz(this)"><div class="sz-name">1000 × 1000</div><div class="sz-val">High quality</div></div>
+      <div class="sz-opt" data-px="1200" onclick="selSz(this)"><div class="sz-name">1200 × 1200</div><div class="sz-val">Print grade</div></div>
+    </div>
+    <div class="ctrl-row">
+      <div class="fgrp"><span class="flabel">Bar color</span><input type="color" class="cpick" id="bk-c" value="#000000"></div>
+      <div class="fgrp"><span class="flabel">Background</span><input type="color" class="cpick" id="bk-g" value="#ffffff"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-bk" onclick="genBK()"><i class="ti ti-bolt" aria-hidden="true"></i>Generate Blinkit-ready</button>
+      <button class="btn btn-dl" onclick="dlAll('bk')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+    </div>
+    <div class="status status-bk" id="st-bk"></div>
+  </div>
+  <div class="out" id="out-bk"></div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const Le=['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+const Ge=['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+const Re=['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+const FD=['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+function chk(d){let s=0;for(let i=0;i<12;i++)s+=(i%2?3:1)*+d[i];return((10-s%10)%10)+'';}
+function enc(c){const p=FD[+c[0]];let b='101';for(let i=0;i<6;i++)b+=p[i]==='L'?Le[+c[1+i]]:Ge[+c[1+i]];b+='01010';for(let i=0;i<6;i++)b+=Re[+c[7+i]];return b+'101';}
+function norm(r){const d=r.replace(/\D/g,'');if(d.length<12||d.length>13)return{err:`"${r}" — 12 ya 13 digits chahiye`};return{code13:d.length===12?d+chk(d):d};}
+
+function drawBC(code13,bC,gC,sc=1){
+  const bW=Math.round(3*sc),bH=Math.round(118*sc),gX=Math.round(14*sc),tP=Math.round(10*sc),bP=Math.round(28*sc),sP=Math.round(22*sc);
+  const bits=enc(code13),w=sP*2+95*bW,h=tP+bH+gX+bP;
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+  const ctx=cv.getContext('2d');
+  ctx.fillStyle=gC;ctx.fillRect(0,0,w,h);
+  for(let i=0;i<95;i++){if(bits[i]==='1'){const g=(i<3)||(i>=45&&i<=49)||(i>=92);ctx.fillStyle=bC;ctx.fillRect(sP+i*bW,tP,bW,g?bH+gX:bH);}}
+  const fs=Math.round(bW*8.2);
+  ctx.fillStyle=bC;ctx.font=`bold ${fs}px "Courier New",monospace`;ctx.textBaseline='top';
+  const ty=tP+bH+gX+Math.round(4*sc);
+  ctx.textAlign='right';ctx.fillText(code13[0],sP-Math.round(4*sc),ty);
+  ctx.textAlign='center';
+  ctx.fillText(code13.slice(1,7),sP+(3+45)/2*bW,ty);
+  ctx.fillText(code13.slice(7,13),sP+(50+92)/2*bW,ty);
+  return cv;
+}
+
+function drawBKSq(code13,bC,gC,sqPx){
+  const barCv=drawBC(code13,bC,gC,2);
+  const cv=document.createElement('canvas');cv.width=sqPx;cv.height=sqPx;
+  const ctx=cv.getContext('2d');
+  ctx.fillStyle=gC;ctx.fillRect(0,0,sqPx,sqPx);
+  const pad=Math.round(sqPx*.1);
+  const sc=Math.min((sqPx-pad*2)/barCv.width,(sqPx-pad*2)/barCv.height);
+  const dw=Math.round(barCv.width*sc),dh=Math.round(barCv.height*sc);
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(barCv,Math.round((sqPx-dw)/2),Math.round((sqPx-dh)/2),dw,dh);
+  return cv;
+}
+
+let bcC=[],qrC=[],bkC=[];
+
+function sw(t,btn){
+  ['bc','qr','bk'].forEach(x=>{
+    document.getElementById('tab-'+x).className='tab';
+    document.getElementById('pane-'+x).className='pane';
+  });
+  btn.className='tab on-'+t;
+  document.getElementById('pane-'+t).className='pane on';
+  document.getElementById('out-'+t).innerHTML='';
+  if(t==='bc')bcC=[];else if(t==='qr')qrC=[];else bkC=[];
+}
+
+function initPre(pid,cid,gid){
+  document.getElementById(pid).querySelectorAll('.dot').forEach(d=>{
+    d.onclick=()=>{
+      document.getElementById(pid).querySelectorAll('.dot').forEach(x=>x.classList.remove('sel'));
+      d.classList.add('sel');
+      document.getElementById(cid).value=d.dataset.b;
+      document.getElementById(gid).value=d.dataset.g;
+    };
+  });
+}
+initPre('bc-pre','bc-c','bc-g');
+initPre('qr-pre','qr-c','qr-g');
+
+function selSz(el){document.querySelectorAll('.sz-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');}
+
+function mkCard(cv,lbl,outId){
+  const card=document.createElement('div');card.className='bc-card';
+  card.appendChild(cv);
+  const l=document.createElement('div');l.className='bc-lbl';l.textContent=lbl;
+  card.appendChild(l);document.getElementById(outId).appendChild(card);
+}
+
+function genBC(){
+  const lines=document.getElementById('bc-inp').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const bC=document.getElementById('bc-c').value,gC=document.getElementById('bc-g').value;
+  document.getElementById('out-bc').innerHTML='';bcC=[];
+  let ok=0,fail=0;
+  for(const line of lines){
+    const{code13,err}=norm(line);
+    if(err){const d=document.createElement('div');d.className='err';d.textContent='✕ '+err;document.getElementById('out-bc').appendChild(d);fail++;continue;}
+    mkCard(drawBC(code13,bC,gC),code13,'out-bc');
+    bcC.push({canvas:drawBC(code13,bC,gC),code13});ok++;
+  }
+  document.getElementById('st-bc').textContent=ok+' barcode'+(ok!==1?'s':'')+' ready'+(fail?' | '+fail+' error(s)':'');
+}
+
+function genQR(){
+  const lines=document.getElementById('qr-inp').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const fg=document.getElementById('qr-c').value,bg=document.getElementById('qr-g').value;
+  const sz=+document.getElementById('qr-sz').value,ec=document.getElementById('qr-ec').value;
+  document.getElementById('out-qr').innerHTML='';qrC=[];
+  if(!lines.length){document.getElementById('st-qr').textContent='Kuch daalo pehle';return;}
+  let done=0;
+  lines.forEach((text,idx)=>{
+    const card=document.createElement('div');card.className='bc-card';
+    const h=document.createElement('div');card.appendChild(h);
+    const l=document.createElement('div');l.className='bc-lbl';l.style.maxWidth=sz+'px';l.style.overflow='hidden';l.style.textOverflow='ellipsis';l.style.whiteSpace='nowrap';
+    l.textContent=text.length>34?text.slice(0,34)+'…':text;card.appendChild(l);
+    document.getElementById('out-qr').appendChild(card);
+    try{
+      new QRCode(h,{text,width:sz,height:sz,colorDark:fg,colorLight:bg,correctLevel:QRCode.CorrectLevel[ec]});
+      setTimeout(()=>{
+        const el=h.querySelector('canvas')||h.querySelector('img');
+        if(el){const cv=document.createElement('canvas');cv.width=sz;cv.height=sz;const ctx=cv.getContext('2d');if(el.tagName==='CANVAS')ctx.drawImage(el,0,0);else el.onload=()=>ctx.drawImage(el,0,0);qrC.push({canvas:cv,name:'qr_'+idx});}
+        if(++done===lines.length)document.getElementById('st-qr').textContent=done+' QR code'+(done!==1?'s':'')+' ready';
+      },250);
+    }catch(e){h.textContent='Error: '+e.message;}
+  });
+}
+
+function genBK(){
+  const lines=document.getElementById('bk-inp').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const bC=document.getElementById('bk-c').value,gC=document.getElementById('bk-g').value;
+  const sqPx=+(document.querySelector('.sz-opt.sel')||{dataset:{px:'800'}}).dataset.px;
+  document.getElementById('out-bk').innerHTML='';bkC=[];
+  let ok=0,fail=0;
+  for(const line of lines){
+    const{code13,err}=norm(line);
+    if(err){const d=document.createElement('div');d.className='err';d.textContent='✕ '+err;document.getElementById('out-bk').appendChild(d);fail++;continue;}
+    const fullCv=drawBKSq(code13,bC,gC,sqPx);
+    const prev=document.createElement('canvas');prev.width=160;prev.height=160;
+    prev.getContext('2d').drawImage(fullCv,0,0,160,160);
+    mkCard(prev,code13+' · '+sqPx+'×'+sqPx+'px','out-bk');
+    bkC.push({canvas:fullCv,code13});ok++;
+  }
+  document.getElementById('st-bk').textContent=ok+' Blinkit PNG'+(ok!==1?'s':'')+' ready ('+sqPx+'×'+sqPx+', 1:1)'+(fail?' | '+fail+' error(s)':'');
+}
+
+function dlAll(type){
+  const arr=type==='bc'?bcC:type==='qr'?qrC:bkC;
+  if(!arr.length){alert('Pehle Generate karo!');return;}
+  arr.forEach(({canvas,code13,name})=>{
+    const a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download=(type==='qr'?name:'barcode_'+code13+(type==='bk'?'_1x1':''))+'.png';
+    a.click();
+  });
+}
+
+genBC();
+</script>
