@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barcode & QR Generator</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);background:#0f0e17;padding:0;min-height:100vh}
-
+body{font-family:system-ui,sans-serif;background:#0f0e17;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,#26215C 0%,#534AB7 60%,#7F77DD 100%);padding:22px 24px 18px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:#7F77DD;border-radius:50%;opacity:.18}
 .hero-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative}
@@ -12,7 +18,6 @@ body{font-family:var(--font-sans);background:#0f0e17;padding:0;min-height:100vh}
 .pill-bc{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
 .pill-qr{background:#0F6E56;color:#9FE1CB;border-color:#1D9E75}
 .pill-bk{background:#BA7517;color:#FAEEDA;border-color:#EF9F27}
-
 .tab-bar{display:flex;background:#1a1830;border-bottom:1.5px solid #2d2a50}
 .tab{flex:1;padding:13px 8px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#7F77DD;border-bottom:3px solid transparent;margin-bottom:-1.5px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px}
 .tab i{font-size:15px}
@@ -20,34 +25,28 @@ body{font-family:var(--font-sans);background:#0f0e17;padding:0;min-height:100vh}
 .tab.on-bc{color:#fff;border-bottom-color:#7F77DD;background:rgba(127,119,221,.08)}
 .tab.on-qr{color:#5DCAA5;border-bottom-color:#1D9E75;background:rgba(29,158,117,.06)}
 .tab.on-bk{color:#EF9F27;border-bottom-color:#EF9F27;background:rgba(239,159,39,.06)}
-
 .body{padding:20px;background:#0f0e17}
 .pane{display:none}.pane.on{display:block}
-
 .section{background:#1a1830;border:1px solid #2d2a50;border-radius:14px;padding:18px;margin-bottom:14px}
 .section-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .section-head i{font-size:18px;color:#7F77DD}
 .section-head-qr i{color:#1D9E75}
 .section-head-bk i{color:#EF9F27}
 .section-title{font-size:14px;font-weight:500;color:#e8e6ff}
-
 .flabel{font-size:11px;font-weight:500;letter-spacing:.5px;color:#6B6890;margin-bottom:5px;display:block;text-transform:uppercase}
-textarea{width:100%;height:80px;font-family:var(--font-mono);font-size:12px;border:1px solid #2d2a50;border-radius:10px;padding:10px;resize:vertical;background:#120f24;color:#e8e6ff;line-height:1.6}
+textarea{width:100%;height:80px;font-family:monospace;font-size:12px;border:1px solid #2d2a50;border-radius:10px;padding:10px;resize:vertical;background:#120f24;color:#e8e6ff;line-height:1.6}
 textarea:focus{outline:none;border-color:#534AB7}
 textarea::placeholder{color:#3d3a5e}
 .hint{font-size:11px;color:#4d4a6e;margin:5px 0 14px}
-
 .presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .12s;position:relative}
+.dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .12s}
 .dot:hover{transform:scale(1.2)}
 .dot.sel{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.25);transform:scale(1.1)}
-
 .ctrl-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
 .fgrp{display:flex;flex-direction:column;gap:5px}
 .cpick{width:40px;height:34px;border-radius:8px;border:1px solid #2d2a50;cursor:pointer;padding:2px;background:#120f24}
 select{padding:7px 10px;font-size:12px;border:1px solid #2d2a50;border-radius:8px;background:#120f24;color:#e8e6ff}
 select:focus{outline:none;border-color:#534AB7}
-
 .btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn{padding:10px 20px;border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .12s}
 .btn:active{transform:scale(.97)}
@@ -55,22 +54,21 @@ select:focus{outline:none;border-color:#534AB7}
 .btn-qr{background:#0F6E56;color:#9FE1CB}.btn-qr:hover{background:#1D9E75}
 .btn-bk{background:#BA7517;color:#FAEEDA}.btn-bk:hover{background:#EF9F27;color:#412402}
 .btn-dl{background:#1a1830;color:#AFA9EC;border:1px solid #2d2a50}.btn-dl:hover{background:#2d2a50;color:#fff}
-
+.btn-zip{background:#2d1f5e;color:#AFA9EC;border:1px solid #534AB7}.btn-zip:hover{background:#534AB7;color:#fff}
+.btn-zip-qr{background:#0a2e22;color:#5DCAA5;border:1px solid #1D9E75}.btn-zip-qr:hover{background:#0F6E56;color:#9FE1CB}
+.btn-zip-bk{background:#2d1900;color:#EF9F27;border:1px solid #BA7517}.btn-zip-bk:hover{background:#BA7517;color:#FAEEDA}
 .status{font-size:11px;color:#534AB7;margin-top:10px;min-height:16px;font-weight:500}
 .status-qr{color:#1D9E75}
 .status-bk{color:#EF9F27}
-
 .out{display:flex;flex-wrap:wrap;gap:14px;padding-top:4px}
 .bc-card{border-radius:12px;padding:14px 18px;display:inline-flex;flex-direction:column;align-items:center;gap:7px;border:1px solid #2d2a50;background:#120f24;transition:border-color .15s}
 .bc-card:hover{border-color:#534AB7}
 .bc-lbl{font-size:10px;color:#4d4a6e;font-family:monospace;letter-spacing:.6px}
 .err{color:#E24B4A;font-size:12px;padding:4px 0;font-weight:500}
-
 .bk-info{background:#1a1410;border:1px solid #854F0B;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:10px}
 .bk-info i{color:#EF9F27;font-size:20px;flex-shrink:0;margin-top:1px}
 .bk-info-text{font-size:12px;color:#EF9F27;line-height:1.65}
 .bk-info-text strong{color:#FAC775}
-
 .sz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:14px}
 .sz-opt{border:1.5px solid #2d2a50;border-radius:10px;padding:11px 12px;cursor:pointer;transition:all .15s;background:#120f24}
 .sz-opt:hover{border-color:#BA7517}
@@ -80,8 +78,8 @@ select:focus{outline:none;border-color:#534AB7}
 .sz-opt.sel .sz-name{color:#EF9F27}
 .sz-opt.sel .sz-val{color:#BA7517}
 </style>
-
-<h2 class="sr-only">Barcode, QR code and Blinkit-ready barcode generator</h2>
+</head>
+<body>
 
 <div class="hero">
   <div class="hero-top">
@@ -98,16 +96,17 @@ select:focus{outline:none;border-color:#534AB7}
 </div>
 
 <div class="tab-bar">
-  <button class="tab on-bc" id="tab-bc" onclick="sw('bc',this)"><i class="ti ti-barcode" aria-hidden="true"></i>EAN-13</button>
-  <button class="tab" id="tab-qr" onclick="sw('qr',this)"><i class="ti ti-qrcode" aria-hidden="true"></i>QR Code</button>
-  <button class="tab" id="tab-bk" onclick="sw('bk',this)"><i class="ti ti-bolt" aria-hidden="true"></i>Blinkit</button>
+  <button class="tab on-bc" id="tab-bc" onclick="sw('bc',this)"><i class="ti ti-barcode"></i>EAN-13</button>
+  <button class="tab" id="tab-qr" onclick="sw('qr',this)"><i class="ti ti-qrcode"></i>QR Code</button>
+  <button class="tab" id="tab-bk" onclick="sw('bk',this)"><i class="ti ti-bolt"></i>Blinkit</button>
 </div>
 
 <div class="body">
 
+<!-- EAN-13 TAB -->
 <div id="pane-bc" class="pane on">
   <div class="section">
-    <div class="section-head"><i class="ti ti-list" aria-hidden="true"></i><span class="section-title">Barcode numbers</span></div>
+    <div class="section-head"><i class="ti ti-list"></i><span class="section-title">Barcode numbers</span></div>
     <span class="flabel">Ek line = ek barcode (12 ya 13 digits)</span>
     <textarea id="bc-inp">8906150352377
 8906150352355
@@ -115,7 +114,7 @@ select:focus{outline:none;border-color:#534AB7}
     <div class="hint">12 digits → check digit auto &nbsp;|&nbsp; 13 digits → as-is</div>
   </div>
   <div class="section">
-    <div class="section-head"><i class="ti ti-palette" aria-hidden="true"></i><span class="section-title">Color theme</span></div>
+    <div class="section-head"><i class="ti ti-palette"></i><span class="section-title">Color theme</span></div>
     <div class="presets" id="bc-pre">
       <div class="dot sel" style="background:#000" data-b="#000000" data-g="#ffffff" title="Classic"></div>
       <div class="dot" style="background:#534AB7" data-b="#534AB7" data-g="#EEEDFE" title="Purple"></div>
@@ -132,23 +131,25 @@ select:focus{outline:none;border-color:#534AB7}
       <div class="fgrp"><span class="flabel">Background</span><input type="color" class="cpick" id="bc-g" value="#ffffff"></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-bc" onclick="genBC()"><i class="ti ti-refresh" aria-hidden="true"></i>Generate</button>
-      <button class="btn btn-dl" onclick="dlAll('bc')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+      <button class="btn btn-bc" onclick="genBC()"><i class="ti ti-refresh"></i>Generate</button>
+      <button class="btn btn-dl" onclick="dlAll('bc')"><i class="ti ti-download"></i>Download all</button>
+      <button class="btn btn-zip" onclick="dlZip('bc')"><i class="ti ti-file-zip"></i>Download ZIP</button>
     </div>
     <div class="status" id="st-bc"></div>
   </div>
   <div class="out" id="out-bc"></div>
 </div>
 
+<!-- QR TAB -->
 <div id="pane-qr" class="pane">
   <div class="section">
-    <div class="section-head section-head-qr"><i class="ti ti-link" style="color:#1D9E75" aria-hidden="true"></i><span class="section-title">Links / text</span></div>
+    <div class="section-head section-head-qr"><i class="ti ti-link" style="color:#1D9E75"></i><span class="section-title">Links / text</span></div>
     <span class="flabel">Ek line = ek QR</span>
     <textarea id="qr-inp" placeholder="https://unigenlifestyle.com&#10;https://example.com/product/123"></textarea>
     <div class="hint">URL, product link, kuch bhi chalega</div>
   </div>
   <div class="section">
-    <div class="section-head section-head-qr"><i class="ti ti-palette" style="color:#1D9E75" aria-hidden="true"></i><span class="section-title">Color &amp; size</span></div>
+    <div class="section-head section-head-qr"><i class="ti ti-palette" style="color:#1D9E75"></i><span class="section-title">Color &amp; size</span></div>
     <div class="presets" id="qr-pre">
       <div class="dot sel" style="background:#1D3557" data-b="#1D3557" data-g="#ffffff"></div>
       <div class="dot" style="background:#534AB7" data-b="#534AB7" data-g="#EEEDFE"></div>
@@ -171,29 +172,31 @@ select:focus{outline:none;border-color:#534AB7}
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-qr" onclick="genQR()"><i class="ti ti-refresh" aria-hidden="true"></i>Generate</button>
-      <button class="btn btn-dl" onclick="dlAll('qr')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+      <button class="btn btn-qr" onclick="genQR()"><i class="ti ti-refresh"></i>Generate</button>
+      <button class="btn btn-dl" onclick="dlAll('qr')"><i class="ti ti-download"></i>Download all</button>
+      <button class="btn btn-zip-qr" onclick="dlZip('qr')"><i class="ti ti-file-zip"></i>Download ZIP</button>
     </div>
     <div class="status status-qr" id="st-qr"></div>
   </div>
   <div class="out" id="out-qr"></div>
 </div>
 
+<!-- BLINKIT TAB -->
 <div id="pane-bk" class="pane">
   <div class="bk-info">
-    <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+    <i class="ti ti-alert-triangle"></i>
     <div class="bk-info-text">
       <strong>Blinkit / Zepto / Swiggy Instamart:</strong> Barcode image must be <strong>1:1 square ratio</strong>, max 8MB, .png format, 300 DPI+. Yahan barcode white padding ke saath square canvas pe center hota hai — seedha upload karo, error nahi aayega.
     </div>
   </div>
   <div class="section">
-    <div class="section-head section-head-bk"><i class="ti ti-list" style="color:#EF9F27" aria-hidden="true"></i><span class="section-title">Barcode numbers</span></div>
+    <div class="section-head section-head-bk"><i class="ti ti-list" style="color:#EF9F27"></i><span class="section-title">Barcode numbers</span></div>
     <span class="flabel">Ek line = ek barcode (12 ya 13 digits)</span>
     <textarea id="bk-inp">8906150352377</textarea>
     <div class="hint">Same numbers jo EAN-13 tab mein daale the</div>
   </div>
   <div class="section">
-    <div class="section-head section-head-bk"><i class="ti ti-resize" style="color:#EF9F27" aria-hidden="true"></i><span class="section-title">Export size (1:1 square)</span></div>
+    <div class="section-head section-head-bk"><i class="ti ti-resize" style="color:#EF9F27"></i><span class="section-title">Export size (1:1 square)</span></div>
     <div class="sz-grid">
       <div class="sz-opt" data-px="500" onclick="selSz(this)"><div class="sz-name">500 × 500</div><div class="sz-val">Basic upload</div></div>
       <div class="sz-opt sel" data-px="800" onclick="selSz(this)"><div class="sz-name">800 × 800</div><div class="sz-val">Recommended</div></div>
@@ -205,8 +208,9 @@ select:focus{outline:none;border-color:#534AB7}
       <div class="fgrp"><span class="flabel">Background</span><input type="color" class="cpick" id="bk-g" value="#ffffff"></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-bk" onclick="genBK()"><i class="ti ti-bolt" aria-hidden="true"></i>Generate Blinkit-ready</button>
-      <button class="btn btn-dl" onclick="dlAll('bk')"><i class="ti ti-download" aria-hidden="true"></i>Download all</button>
+      <button class="btn btn-bk" onclick="genBK()"><i class="ti ti-bolt"></i>Generate Blinkit-ready</button>
+      <button class="btn btn-dl" onclick="dlAll('bk')"><i class="ti ti-download"></i>Download all</button>
+      <button class="btn btn-zip-bk" onclick="dlZip('bk')"><i class="ti ti-file-zip"></i>Download ZIP</button>
     </div>
     <div class="status status-bk" id="st-bk"></div>
   </div>
@@ -216,6 +220,7 @@ select:focus{outline:none;border-color:#534AB7}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 const Le=['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
 const Ge=['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
@@ -357,5 +362,35 @@ function dlAll(type){
   });
 }
 
+async function dlZip(type){
+  const arr=type==='bc'?bcC:type==='qr'?qrC:bkC;
+  if(!arr.length){alert('Pehle Generate karo!');return;}
+
+  const stEl=document.getElementById('st-'+type);
+  stEl.textContent='ZIP ban raha hai…';
+
+  const zip=new JSZip();
+  const folder=zip.folder(type==='bc'?'barcodes':type==='qr'?'qrcodes':'blinkit_barcodes');
+
+  for(const item of arr){
+    const fname=(type==='qr'
+      ? item.name
+      : 'barcode_'+item.code13+(type==='bk'?'_1x1':''))+'.png';
+    const b64=item.canvas.toDataURL('image/png').split(',')[1];
+    folder.file(fname,b64,{base64:true});
+  }
+
+  const blob=await zip.generateAsync({type:'blob'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  const ts=new Date().toISOString().slice(0,10);
+  a.download=(type==='bc'?'barcodes':type==='qr'?'qrcodes':'blinkit_1x1')+'_'+ts+'.zip';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  stEl.textContent=arr.length+' files ZIP mein pack ho gaye ✓';
+}
+
 genBC();
 </script>
+</body>
+</html>
